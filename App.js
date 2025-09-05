@@ -3,11 +3,14 @@ import { StyleSheet, Text, TextInput, View, Image, Alert, TouchableOpacity} from
 import logo from './assets/todo.png';
 import Add from './assets/Add.png';
 import { useState } from 'react';
+import { FlashList } from "@shopify/flash-list";
 
 export default function App() {
   const [tarefa,setTarefa] = useState("");
+  const [tarefas, setTarefas] = useState([]);
   const btnAdicionar = () => {
     Alert.alert("TODO List" , "Valor: " + tarefa);
+setTarefas([tarefa, ...tarefas]);
     setTarefa("")
   };
   return (
@@ -21,6 +24,12 @@ export default function App() {
         <TouchableOpacity onPress={btnAdicionar}>
         <Image source={Add} style={styles.Add}/>
         </TouchableOpacity>
+        </View>
+        <View style={styles.viewTarefas}>
+          <FlashList
+        data={tarefas}
+        renderItem={({ Item }) => <Text>{Item}</Text>}
+        />
         </View>
       <StatusBar style="auto" />
     </View>
@@ -56,4 +65,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
+    viewTarefas: {
+      width: "100%",
+      flex: 1
+    },
   });
